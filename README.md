@@ -1,4 +1,4 @@
 ## Usage
 ```
-ip-location.py <IP Address>
+./ip-location.py <IP Address>
 ```
