@@ -6,6 +6,7 @@ import json
 
 url_1 = 'https://www.iputilities.net/'
 url_2 = 'https://ipapi.co/'
+url_3 = 'https://ipinfo.io/'
 
 def request_1(ip):
     payload = {'select': '/',
@@ -37,6 +38,21 @@ def request_2(ip):
     print("Latitude,Longtude:",str(data["latitude"]) + "," + str(data["longitude"]))
     print("Org:",data["org"])
 
+def request_3(ip):
+    headers={'referer':'https://ipinfo.io/'}
+
+    print("---[ipinfo.io]---")
+    response = requests.get(url_3 + "widget/demo/" + ip, headers=headers)
+    if 200 != response.status_code:
+        print("status code: [",response.status_code,"]",response.text)
+        return
+
+    data = response.json()
+
+    print("Country:",data["country"])
+    print("City",data["city"])
+    print("Latitude,Longtude:",data["loc"])
+
 def main():
     ip_address = input("IP Address> ")
 
@@ -44,6 +60,9 @@ def main():
     request_1(ip_address)
     print()
     request_2(ip_address)
+    print()
+    request_3(ip_address)
+    print()
 
 if __name__ == '__main__':
     main()
