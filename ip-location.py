@@ -13,11 +13,15 @@ def request_1(ip):
             'userip': ip,
             'whoisdb': 'APNIC'}
 
+    print("---[www.iputilities.net]---")
     response = requests.post(url_1, data=payload)
+    if 200 != response.status_code:
+        print("status code: [",response.status_code,"]",response.text)
+        return
+
     soup = BeautifulSoup(response.content, "html.parser")
     data = soup.find_all("td",id="answer")
 
-    print("---[www.iputilities.net]---")
     hostname = str(data[1])
     print("HOST NAME:", hostname[16:-5])
     country = str(data[2])
@@ -29,10 +33,13 @@ def request_1(ip):
     print("Latitude,Longitude:", La[26:-5] + "," + Lo[26:-5])
 
 def request_2(ip):
+    print("---[ipapi.co]---")
     response = requests.get(url_2 + ip + "/json")
+    if 200 != response.status_code:
+        print("status code: [",response.status_code,"]",response.text)
+        return
     data = response.json()
 
-    print("---[ipapi.co]---")
     print("Country:",data["country_name"])
     print("City:",data["city"])
     print("Latitude,Longtude:",str(data["latitude"]) + "," + str(data["longitude"]))
